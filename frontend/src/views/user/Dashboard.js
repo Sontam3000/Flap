@@ -27,7 +27,7 @@ import '../../assets/css/style.css';
 
 
 function Dashboard() {
-  const [userData, setUserData] = useState({userId:"", firstname: "", middlename: "", lastname: "", email: "", phone: "", organization: "" });
+  const [userData, setUserData] = useState({userId:"", firstname: "", middlename: "", lastname: "", email: "", phone: "", organization: "", reg_flag:"" });
   // const [newUsername, setNewUsername] = useState();
   const [userCard, setUserCard] = useState([]);
   const [mode, setMode] = useState(userCard.mode || ''); 
@@ -92,7 +92,8 @@ function Dashboard() {
             email: decoded.email || "",
             phone: decoded.phone || "",
             username: decoded.username || "",
-            organization: decoded.organization || ""
+            organization: decoded.organization || "",
+            reg_flag: decoded.reg_flag || ""
           });
         }
     }
@@ -150,6 +151,7 @@ function Dashboard() {
             <Card className="card-user">
               <CardHeader>
                 <CardTitle tag="h5">My Profile</CardTitle>
+                
               </CardHeader>
               <CardBody>
                 <Form  onSubmit= {handleSubmit}>
@@ -168,6 +170,15 @@ function Dashboard() {
                        
                       </FormGroup>
                     </Col>
+                    {/* <Col className="pr-1" md="4">
+                      <FormGroup>
+                        <Link to='/user/reset-password'>
+                        <button style={{marginTop:'1.8em', padding:'0.5em 0.8em',
+                      border:'none', backgroundColor:'#1f4399', color:'white'
+                      }}>Reset password</button>
+                       </Link>
+                      </FormGroup>
+                    </Col> */}
                     </Row>
                   <Row>
                     <Col className="pr-1" md="4">
@@ -231,6 +242,9 @@ function Dashboard() {
                     </Col>
                   </Row>
                   <hr/>
+                  {/* {userData.reg_flag} */}
+                  {userData.reg_flag ==="0"? (<h6 align="center">Card Not Registered</h6> ):
+                 (<div>
                   <Row>
                   <Col className="px-3" md="6">
                   <FormGroup>
@@ -478,6 +492,7 @@ function Dashboard() {
                       </Button>
                     </div>
                   </Row>
+                </div>)}
                 </Form>
               </CardBody>
             </Card>

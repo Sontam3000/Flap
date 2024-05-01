@@ -75,7 +75,8 @@ app.post('/login', (req, res)=>{
                                             phone : user.phone,
                                             organization : user.organization,
                                             email: user.email,
-                                            username: user.username, 
+                                            username: user.username,
+                                            reg_flag:user.reg_flag, 
                                             role: user.role},
                                     "jwt-secret-key", {expiresIn: '1d'})
                     res.cookie('token', token)
@@ -96,7 +97,7 @@ app.post('/login', (req, res)=>{
 app.post('/signup', async (req, res) => {
   try {
     const { firstname, middlename, lastname, username, phone, organization, email, password } = req.body;
-
+    const reg_flag='0';
     // Check if the username already exists
     const existingUser = await UserModel.findOne({ username: username });
 
@@ -118,6 +119,7 @@ app.post('/signup', async (req, res) => {
       organization,
       email,
       password: hashedPassword, // Store the hashed password
+      reg_flag,
     });
 
     // Send a 201 response with success message and user data
@@ -171,6 +173,80 @@ app.get('/logout', (req, res) => {
     res.json({ message: 'Logout successful' });
 });
 
+
+// reset-password
+// reset-password endpoint
+app.post('/user/reset-password/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Compare old password with the hashed password in the database
+    const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(400).json({ error: 'Old password is incorrect' });
+    }
+
+    // Hash the new password before updating it in the database
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password with the new hashed password
+    user.password = hashedNewPassword;
+    await user.save();
+
+    // Send success response
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    // Handle database or server errors
+    res.status(500).json({ error: 'Error updating password. Please try again.' });
+  }
+});
+
+//fetch user for confirmation and lisitng
+app.get('/admin/users', (req,res)=>{
+  UserModel.find()
+  .then(users=>res.json(users))
+  .catch(err=>res.json(err))
+})
+
+//changing status
+// Backend route to update user status
+app.post('/admin/users/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { status } = req.body;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if(status==='0'){
+    user.reg_flag = '0';
+    // console.log("f",user.reg_flag)
+    await user.save();
+    }else{
+    user.reg_flag = '1';
+    // console.log("s",user.reg_flag)
+    await user.save();
+    }
+    // console.log(user.status)
+
+    res.json({ message: 'User status updated successfully' });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+//fetch admins
 app.get('/super-admin/admins', (req,res)=>{
     UserModel.find({ role: 'admin' })
     .then(admins=>res.json(admins))

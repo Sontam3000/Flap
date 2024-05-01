@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema({
     },
     email: String,
     password: String,
+    reg_flag: String,
     role: {
         type: String,
         default: 'user',

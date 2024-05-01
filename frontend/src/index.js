@@ -25,6 +25,7 @@ import ProductOrder from "views/user/productOrder";
 import CreateCard from "views/admin/createCard";
 import AddTestimonial from "views/admin/addTestimonial";
 import UserInfo from "views/UserInfo";
+// import ResetPassword from "views/user/reset-password";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -53,6 +54,7 @@ root.render(
       <Route path="/user/" element={<Navigate to="/user/dashboard" replace />} />
       <Route path="/user/explore-products/details/:productId" element={<ProductDetails />} />
       <Route path="/user/explore-products/product-order" element={<ProductOrder />} />
+      {/* <Route path="/user/reset-password" element={<ResetPassword />} /> */}
 
 
     </Routes>

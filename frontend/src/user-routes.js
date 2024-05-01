@@ -6,6 +6,7 @@ import ExploreProducts from 'views/user/exploreProduct';
 import Support from 'views/user/Support';
 import Logout from 'views/Logout';
 import Preview from 'views/user/Preview';
+import ResetPassword from 'views/user/reset-password';
 
 var routes = [
   {
@@ -48,6 +49,13 @@ var routes = [
     name: "Card Support",
     icon: "fas fa-ticket-alt",
     component: <Support />,
+    layout: "/user",
+  },
+  {
+    path: "/reset-password",
+    name: "Reset Password",
+    icon: "fas fa-key",
+    component: <ResetPassword />,
     layout: "/user",
   },
   {

@@ -10,6 +10,8 @@ import axios from 'axios';
 const SignupComponent = () => {
   const [email,setEmail]=useState();
   const [password,setPassword]=useState();
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate()
   axios.defaults.withCredentials = true;
   const handleSubmit=(e)=>{
@@ -27,7 +29,9 @@ const SignupComponent = () => {
             navigate('/user');
         }
     }
-    }).catch(err=>console.log(err))
+    }).catch(err=>{
+      setErrorMessage("Wrong Credentials. Please try again."); // Display error message
+      console.log(err)})
   }
   return (
     <>
@@ -41,6 +45,8 @@ const SignupComponent = () => {
         <form onSubmit={handleSubmit}>
             <h3 align="center" style={{fontWeight:'800', 
             color:'#1a4789'}}>Login</h3>
+              {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+
             <TextField
               required
               id="email"

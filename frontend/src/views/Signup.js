@@ -49,7 +49,6 @@ const SignupComponent = () => {
             onChange={(e)=> setFirstName(e.target.value)}
           /><br />
           <TextField
-            required
             id="middlename"
             label="Middle Name"
             variant="standard"
@@ -83,7 +82,7 @@ const SignupComponent = () => {
           <TextField
             required
             id="orgname"
-            label="Organization b"
+            label="Organization"
             variant="standard"
             fullWidth
             onChange={(e)=> setOrganization(e.target.value)}
