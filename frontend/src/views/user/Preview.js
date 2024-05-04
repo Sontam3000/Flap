@@ -76,6 +76,7 @@ function Preview() {
   };
 
   useEffect(() => {
+    
     if(userCard.theme==='#f2f2f2'){
       setTheme('preview-light');
     } else if(userCard.theme==='#333333')

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardBody, Row } from "reactstrap";
 import axios from "axios";
 import {
-  Link
+  Link,
 } from "react-router-dom"
 import '../assets/css/style.css';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -17,7 +17,6 @@ function UserInfo() {
     const [userCard, setUserCard] = useState([]);
     let { username } = useParams();
     const [theme, setTheme] =useState('');
-
 
     const fetchProfile = useCallback(() => {
         axios.get(`http://localhost:3001/user-info/${username}`, { withCredentials: true })
@@ -75,6 +74,11 @@ function UserInfo() {
         return ''; // Return empty string for non-string values
       };
       useEffect(() => {
+        if(userCard.old_nfc_url!== "null"){
+          window.location.href=`https://facebook.com`;
+
+          // window.location.href=`https://flap.com.np/${username}`;
+        }
         if(userCard.theme==='#f2f2f2'){
           setTheme('preview-light');
         } else if(userCard.theme==='#333333')
@@ -105,7 +109,7 @@ function UserInfo() {
         }
       }, [userCard.theme,userCard.mode,userCard.facebook,
         userCard.youtube,userCard.spotify, userCard.twitter,
-        userCard.instagram, userCard.linkedin
+        userCard.instagram, userCard.linkedin,userCard.old_nfc_url
       ]); 
   return (
     <div>

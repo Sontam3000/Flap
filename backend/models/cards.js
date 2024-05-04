@@ -5,6 +5,10 @@ const CardSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
+    old_nfc_url: {
+        type: String,
+        default: "null",
+    },
     profile_pic: {
         type: String,
         default: null,
